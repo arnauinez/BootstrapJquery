@@ -1,22 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Git Repo Getter DSA2019 Arnau Martinez</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <script>
+  $(document).ready(function()
+  {
+    $('#table_div').hide();
+    $("#btn_submit").click(function()
+    {
+      $("#table_div").fadeOut("slow");
+      $('#table_div').hide();
+      $.get( "https://api.github.com/users/"+ $("#input_username").val()+ "/repos", function( data )
+
+      {
+          $.each(data, function (index, element)
+          {
+              var insertion = "<tr><td>" + element.id + "</td><td>" + element.name + "</td><td>" + element.description + "</td><td>" + element.stargazers_count + "</td></tr>";
+              $("#repo_table tbody").append(insertion);
+          });
+
+      }, "json" );
+      $('#repo_table tbody tr').remove();
+      $("#table_div").fadeIn("slow");
+    });
+  });
+  </script>
+
+
 </head>
-
-
-
 
 <body>
 
-<div class="container-fluid">
-  <h1>My First Bootstrap Page</h1>
-  <p>This is some text.</p>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="jumbotron jumbotron-fluid text-center">
+      <h1 class=align="center">Git Repo Getter DSA</h1>
+      <h2 class="bg-primary" align="center">Arnau Martinez Lopera</h2>
+      <p>Get repository info by submiting a github username</p>
+    </div>
+
+  </div>
+      <div class="text-center"><button data-toggle="collapse" data-target="#function" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-triangle-bottom"></span></button></div>
+      <div id="function" class="collapse">
+
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                  <label for="usr">Username:</label>
+                  <input type="text" id="input_username" class="form-control">
+                  <input id = "btn_submit" type="submit" value="Search"/>
+              </div>
+            </div>
+            <div class="col-sm-4"></div>
+
+        </div>
+    </div>
+  <div id="table_div">
+    <div class="container">
+        <h2><u>Repositories</u></h2>
+        <table class="table table table-striped" id="repo_table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Followers</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+  </div>
 </div>
 
 </body>
